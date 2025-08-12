@@ -5,14 +5,17 @@ from tkinter import *
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save():
-    with open("data.txt", "w") as f:
+    with open("data.txt", "a") as f:
         output1=input1.get()
         output2=input2.get()
         output3=input3.get()
-        f.write(output1)
-        f.write(output2)
-        f.write(output3)
-
+        f.write(f"{output1} ||| ")
+        f.write(f"{output2} ||| ")
+        f.write(f"{output3} \n" )
+        
+def delete_entry():
+    input1.delete(0, END)
+    input3.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -37,20 +40,20 @@ password.grid(row=3,column=0)
 
 
 
-input1 = Entry(width=36)
+input1 = Entry(width=35)
 input1.grid(row=1,column=1, columnspan=2)
 input1.focus()
-input2 = Entry(width=36)
+input2 = Entry(width=35)
 input2.grid(row=2,column=1,columnspan=2)
 input2.insert(0,"anujacharya877@gmail.com")
 
 
-input3 = Entry(width=28)
+input3 = Entry(width=21)
 input3.grid(row=3,column=1)
 
 generate=Button(text="Generate Password")
 generate.grid(row=3,column=2)
 
-add=Button(text="Add", width=36,command=save)
+add=Button(text="Add", width=36,command=lambda:[save(), delete_entry()])
 add.grid(row=4,column=1,columnspan=2)
 window.mainloop()
