@@ -1,21 +1,42 @@
 from tkinter import *
-
+from tkinter import messagebox
+from random import choice, randint, shuffle
+import pyperclip
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def generate_password():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
+    password_letters = [choice(letters) for _ in range(randint(8, 10))]
+    password_symbols = [choice(symbols) for _ in range(randint(2, 4))]
+    password_numbers = [choice(numbers) for _ in range(randint(2, 4))]
+
+    password_list = password_letters + password_symbols + password_numbers
+    shuffle(password_list)
+
+    password = "".join(password_list)
+    passs.insert(0, password)
+    pyperclip.copy(password)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save():
-    with open("data.txt", "a") as f:
-        output1=input1.get()
-        output2=input2.get()
-        output3=input3.get()
-        f.write(f"{output1} ||| ")
-        f.write(f"{output2} ||| ")
-        f.write(f"{output3} \n" )
-        
+    output1=web.get()
+    output2=ema.get()
+    output3=passs.get()
+    
+    if len(output1 ) == 0 or len(output3) == 0:
+         messagebox.showinfo(title="Dumbass Located", message="Fill out the form idiot!!")   
+    else:
+        is_ok = messagebox.askokcancel(title="Website",message=f"There are the details entered: Email:{output2} \n Password:{output3}. \n Is it ok to save?")
+        if is_ok:
+            with open("data.txt", "a") as f:
+                f.write(f"{output1} ||| ")
+                f.write(f"{output2} ||| ")
+                f.write(f"{output3} \n" )
 def delete_entry():
-    input1.delete(0, END)
-    input3.delete(0, END)
+    web.delete(0, END)
+    passs.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -40,18 +61,18 @@ password.grid(row=3,column=0)
 
 
 
-input1 = Entry(width=35)
-input1.grid(row=1,column=1, columnspan=2)
-input1.focus()
-input2 = Entry(width=35)
-input2.grid(row=2,column=1,columnspan=2)
-input2.insert(0,"anujacharya877@gmail.com")
+web = Entry(width=35)
+web.grid(row=1,column=1, columnspan=2)
+web.focus()
+ema = Entry(width=35)
+ema.grid(row=2,column=1,columnspan=2)
+ema.insert(0,"anujacharya877@gmail.com")
 
 
-input3 = Entry(width=21)
-input3.grid(row=3,column=1)
+passs = Entry(width=21)
+passs.grid(row=3,column=1)
 
-generate=Button(text="Generate Password")
+generate=Button(text="Generate Password", command=generate_password)
 generate.grid(row=3,column=2)
 
 add=Button(text="Add", width=36,command=lambda:[save(), delete_entry()])
