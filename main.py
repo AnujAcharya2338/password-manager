@@ -104,10 +104,18 @@ def save():
 
 def delete_entry():
     web.delete(0, END)
-    passs.delete(0, END)
+    passs.delete(0, END) 
 
 def search_data():
-    pass
+    output1 = web.get()
+    try:
+        with open("data.json", "r" ) as f:
+            data = json.load(f)
+            messagebox.showinfo(title="Error" ,message=f"Your email is {data[output1]["email"]}. \n Your password is{data[output1]["password"]}" )
+    except:
+        messagebox.showinfo(title="Error", message="No datafile found")
+               
+            
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -148,6 +156,6 @@ generate.grid(row=3, column=2)
 add = Button(text="Add",width=32, command=lambda: [save(), delete_entry()])
 add.grid(row=4, column=1)
 
-search= Button(text="Search")
+search= Button(text="Search", command=search_data)
 search.grid(row=1, column=2)
 window.mainloop()
